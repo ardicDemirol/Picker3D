@@ -1,13 +1,18 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
-using System;
 
 public class CoreGameSignals : MonoBehaviour
 {
     public static CoreGameSignals Instance;
 
     public UnityAction<byte> onLevelInitialize = delegate { };
+
     public UnityAction onClearActiveLevel = delegate { };
+    public UnityAction onLevelSuccessful = delegate { };
+    public UnityAction onLevelFailed = delegate { };
+
+
     public UnityAction onNextLevel = delegate { };
     public UnityAction onRestart = delegate { };
     public UnityAction onReset = delegate { };
