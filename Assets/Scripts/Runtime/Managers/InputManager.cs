@@ -41,7 +41,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !IsPointerOverUIElement())
         {
             _isTouching = true;
-            InputSignals.Instance.onýnputTaken?.Invoke();
+            InputSignals.Instance.onInputTaken?.Invoke();
             Debug.LogWarning("Executed ------> On Input Taken");
 
             if (!_isFirstTimeTouchTaken)

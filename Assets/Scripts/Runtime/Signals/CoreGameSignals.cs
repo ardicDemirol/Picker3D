@@ -17,6 +17,10 @@ public class CoreGameSignals : MonoBehaviour
     public UnityAction onRestart = delegate { };
     public UnityAction onReset = delegate { };
 
+    public UnityAction onStageAreaEntered = delegate { };
+    public UnityAction onStageAreaSuccessful = delegate { };
+    public UnityAction onFinishAreaEntered = delegate { };
+
     public Func<byte> onGetLevelValue = delegate { return 0; };
 
 

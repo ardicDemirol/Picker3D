@@ -2,7 +2,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class UILevelController : MonoBehaviour
 {
@@ -12,12 +11,6 @@ public class UILevelController : MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> levelTexts;
 
     #endregion
-
-
-    private void Awake()
-    {
-        
-    }
 
     private void OnEnable()
     {

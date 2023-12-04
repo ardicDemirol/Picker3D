@@ -8,7 +8,7 @@ public class InputSignals : MonoBehaviour
     public UnityAction onFirstTimeTouchTaken = delegate { };
     public UnityAction onEnableInput = delegate { };
     public UnityAction onDisableInput = delegate { };
-    public UnityAction onýnputTaken = delegate { };
+    public UnityAction onInputTaken = delegate { };
     public UnityAction onInputReleased = delegate { };
     public UnityAction<HorizontalInputParams> onInputDragged = delegate { };
 
