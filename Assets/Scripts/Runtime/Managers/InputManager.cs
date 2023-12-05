@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -104,10 +106,33 @@ public class InputManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        CoreGameSignals.Instance.onReset += OnReset;
-        InputSignals.Instance.onEnableInput += OnEnableInput;
-        InputSignals.Instance.onDisableInput += OnDisableInput;
+        if (CoreGameSignals.Instance == null || InputSignals.Instance == null)
+        {
+            StartCoroutine(Coroutine());
+        }
+
+        //CoreGameSignals.Instance.onReset += OnReset;
+        //InputSignals.Instance.onEnableInput += OnEnableInput;
+        //InputSignals.Instance.onDisableInput += OnDisableInput;
     }
+
+    private IEnumerator Coroutine()
+    {
+        while (CoreGameSignals.Instance == null || InputSignals.Instance == null)
+        {
+            yield return null;
+        }
+
+        if (CoreGameSignals.Instance != null && InputSignals.Instance != null)
+        {
+            CoreGameSignals.Instance.onReset += OnReset;
+            InputSignals.Instance.onEnableInput += OnEnableInput;
+            InputSignals.Instance.onDisableInput += OnDisableInput;
+        }
+    }
+
+
+
     private void UnSubscribeEvents()
     {
         CoreGameSignals.Instance.onReset -= OnReset;
@@ -136,14 +161,14 @@ public class InputManager : MonoBehaviour
     {
         var eventData = new PointerEventData(EventSystem.current)
         {
-            position = (Vector2) Input.mousePosition
+            position = (Vector2)Input.mousePosition
         };
 
         List<RaycastResult> results = new();
         EventSystem.current.RaycastAll(eventData, results);
 
         return results.Count > 0;
-        
+
     }
 
 }

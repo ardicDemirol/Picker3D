@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UILevelController : MonoBehaviour
+public class LevelPanelController : MonoBehaviour
 {
     #region Serialized Variables
 

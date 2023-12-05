@@ -1,13 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerManager : MonoBehaviour
 {
-
-    public PlayerData PlayerData;
-
     #region Public Variables
 
     public byte StageValue;
@@ -49,7 +44,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Init()
     {
-        ForceCommand = new ForceBallsToPoolCommand(this, _data.ForceData);
+        ForceCommand = gameObject.AddComponent<ForceBallsToPoolCommand>();
     }
 
     private void SendDataToControllers()

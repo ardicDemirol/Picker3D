@@ -35,10 +35,10 @@ public class UIManager : MonoBehaviour
         CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Win, 2);
     }
 
-    private void OnLevelInitialize(byte arg0)
+    private void OnLevelInitialize(byte levelValue)
     {
         CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Level, 0);
-        UISignals.Instance.onSetLevelValue?.Invoke((byte)CoreGameSignals.Instance.onGetLevelValue?.Invoke());
+        UISignals.Instance.onSetLevelValue?.Invoke(levelValue);
     }
 
     private void OnLevelFailed()
@@ -56,11 +56,13 @@ public class UIManager : MonoBehaviour
     public void NextLevel()
     {
         CoreGameSignals.Instance.onNextLevel?.Invoke();
+        CoreGameSignals.Instance.onReset?.Invoke();
     }
 
     public void RestartLevel()
     {
         CoreGameSignals.Instance.onRestart?.Invoke();
+        CoreGameSignals.Instance.onReset?.Invoke();
     }
 
     public void Play()
@@ -68,5 +70,6 @@ public class UIManager : MonoBehaviour
         UISignals.Instance.onPlay?.Invoke();
         CoreUISignals.Instance.onClosePanel?.Invoke(1);
         InputSignals.Instance.onEnableInput?.Invoke();
+        CameraSignals.Instance.onSetCameraTarget?.Invoke();
     }
 }
