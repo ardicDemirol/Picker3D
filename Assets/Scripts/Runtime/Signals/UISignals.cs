@@ -1,18 +1,9 @@
-﻿using UnityEngine;
+﻿using Runtime.Extensions;
 using UnityEngine.Events;
 
-public class UISignals : MonoBehaviour
+public class UISignals : MonoSingleton<UISignals>
 {
-    public static UISignals Instance;
-
     public UnityAction<byte> onSetStageColor = delegate { };
     public UnityAction<byte> onSetLevelValue = delegate { };
     public UnityAction onPlay = delegate { };
-
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else Instance = this;
-    }
 }

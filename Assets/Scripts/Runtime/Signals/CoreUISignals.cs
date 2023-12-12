@@ -1,19 +1,9 @@
-﻿using UnityEngine;
+﻿using Runtime.Extensions;
 using UnityEngine.Events;
 
-public class CoreUISignals : MonoBehaviour
+public class CoreUISignals : MonoSingleton<CoreUISignals>
 {
-    public static CoreUISignals Instance;
-
     public UnityAction<UIPanelTypes,int> onOpenPanel = delegate { };
     public UnityAction<int> onClosePanel = delegate { };
     public UnityAction onCloseAllPanels = delegate { };
-
-
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else Instance = this;
-    }
 }

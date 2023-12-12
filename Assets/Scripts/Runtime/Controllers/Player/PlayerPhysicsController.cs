@@ -1,50 +1,85 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerPhysicsController : MonoBehaviour
+namespace Runtime.Controllers.Player
 {
-
-    #region Serialized Variables
-
-    [SerializeField] private PlayerManager manager;
-    [SerializeField] private new Collider collider;
-    [SerializeField] private new Rigidbody rigidbody;
-
-    #endregion
-
-    #region Private Variables
-
-    private const string StageArea = "StageArea";
-    private const string Finish = "FinishArea";
-    private const string MiniGameArea = "MiniGameArea";
-    #endregion
-
-    private void OnTriggerEnter(Collider other)
+    public class PlayerPhysicsController : MonoBehaviour
     {
-        if (other.CompareTag(StageArea))
-        {
-            manager.ForceCommand.Execute();
-            CoreGameSignals.Instance.onStageAreaEntered?.Invoke();
-            InputSignals.Instance.onDisableInput?.Invoke();
+        #region Self Variables
 
-            // stage area control process
+        #region Serialized Variables
+
+        [SerializeField] private PlayerManager manager;
+        [SerializeField] private new Collider collider;
+        [SerializeField] private new Rigidbody rigidbody;
+
+        #endregion
+
+        #region Private Variables
+
+        private readonly string _stageArea = "StageArea";
+        private readonly string _finish = "FinishArea";
+        private readonly string _miniGame = "MiniGameArea";
+        #endregion
+
+        #endregion
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag(_stageArea))
+            {
+                manager.ForceCommand.Execute();
+                CoreGameSignals.Instance.onStageAreaEntered?.Invoke();
+                InputSignals.Instance.onDisableInput?.Invoke();
+
+                DOVirtual.DelayedCall(3, () =>
+                {
+                    var result = other.transform.parent.GetComponentInChildren<PoolController>()
+                        .TakeResults(manager.StageValue);
+
+                    if (result)
+                    {
+                        CoreGameSignals.Instance.onStageAreaSuccessful?.Invoke(manager.StageValue);
+                        InputSignals.Instance.onEnableInput?.Invoke();
+                    }
+                    else
+                    {
+                        CoreGameSignals.Instance.onLevelFailed?.Invoke();
+                    }
+                });
+                return;
+            }
+
+            if (other.CompareTag(_finish))
+            {
+                CoreGameSignals.Instance.onFinishAreaEntered?.Invoke();
+                InputSignals.Instance.onDisableInput?.Invoke();
+                return;
+            }
+
+            if (other.CompareTag(_miniGame))
+            {
+                //Write the MiniGame Mechanics
+            }
         }
 
-        if(other.CompareTag(Finish))
+        private void OnDrawGizmos()
         {
-            CoreGameSignals.Instance.onFinishAreaEntered?.Invoke();
-            InputSignals.Instance.onDisableInput?.Invoke();
-            CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
-            return;
+            Gizmos.color = Color.yellow;
+            var transform1 = manager.transform;
+            var position1 = transform1.position;
+
+            Gizmos.DrawSphere(new Vector3(position1.x, position1.y - 1f, position1.z + .9f), 1.7f);
         }
 
-        if(other.CompareTag(MiniGameArea))
+        public void OnReset()
         {
-           // Write minigame mechanicsf
         }
-    }
 
-
-    internal void OnReset()
-    {
+       
+       
+        
+        
     }
 }
